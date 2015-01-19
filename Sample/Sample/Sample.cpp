@@ -4,9 +4,10 @@
 #include "stdafx.h"
 #include "../../TypedId.h"
 
-struct PersonId : public simonstuff::typed_id_32<PersonId> { PersonId() = default; PersonId(std::uint32_t v) : simonstuff::typed_id_32<PersonId>(v) {} };
-struct ContractId : public simonstuff::typed_id_32<ContractId> { ContractId() = default; ContractId(std::uint32_t v) : simonstuff::typed_id_32<ContractId>(v) {} };
+struct PersonId : public simonstuff::typed_id_32<PersonId> { PersonId() = default; PersonId(std::uint32_t v) : simonstuff::typed_id<PersonId, std::uint32_t>(v) {} };
+struct ContractId : public simonstuff::typed_id_32<ContractId> { ContractId() = default; ContractId(std::uint32_t v) : simonstuff::typed_id<ContractId, std::uint32_t>(v) {} };
 
+static_assert(sizeof(PersonId) == sizeof(std::uint32_t), "PersonId should have the same size as std::uint32_t");
 int _tmain(int argc, _TCHAR* argv[])
 {
 	PersonId id1 = 1;
@@ -16,7 +17,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	bool res1 = id1 == id2; // build and behave correctly (both are ids of Person)
 	bool res2 = id3 == id4;
-	bool res3 = id1 == id3; // fails to build (on id of Person, one id of Contract)
+	//bool res3 = id1 == id3; // fails to build (on id of Person, one id of Contract)
 	return 0;
 }
 
